@@ -1,5 +1,5 @@
 // Practice progress: what was practised, when, and how (never a grade).
-// ProgressStore is an interface so a Firestore-backed store can replace the local one.
+// The active store is local until someone signs in, then it's their Firestore log.
 import { useSyncExternalStore } from 'react';
 import type { PracticeMode } from './prefs';
 
@@ -26,39 +26,73 @@ export interface ProgressStore {
   subscribe(listener: () => void): () => void;
 }
 
-const KEY = 'chem2202.attempts';
+const LOCAL_KEY = 'chem2202.attempts';
 
-function createLocalStore(): ProgressStore {
+export function createLocalStore(): ProgressStore & { clear(): void } {
   let cache: AttemptRecord[] | null = null;
   const listeners = new Set<() => void>();
   const read = (): AttemptRecord[] => {
     if (cache) return cache;
     try {
-      cache = JSON.parse(localStorage.getItem(KEY) ?? '[]') as AttemptRecord[];
+      cache = JSON.parse(localStorage.getItem(LOCAL_KEY) ?? '[]') as AttemptRecord[];
     } catch {
       cache = [];
     }
     return cache;
   };
+  const write = (list: AttemptRecord[]) => {
+    cache = list;
+    try {
+      localStorage.setItem(LOCAL_KEY, JSON.stringify(list));
+    } catch {
+      // Keep the in-memory copy if storage is unavailable.
+    }
+    listeners.forEach((l) => l());
+  };
   return {
-    add(record) {
-      cache = [...read(), record];
-      try {
-        localStorage.setItem(KEY, JSON.stringify(cache));
-      } catch {
-        // Keep the in-memory copy if storage is unavailable.
-      }
-      listeners.forEach((l) => l());
-    },
+    add: (record) => write([...read(), record]),
     all: read,
+    clear: () => write([]),
     subscribe(listener) {
       listeners.add(listener);
-      return () => listeners.delete(listener);
+      return () => {
+        listeners.delete(listener);
+      };
     },
   };
 }
 
-export const progressStore: ProgressStore = createLocalStore();
+export const localStore = createLocalStore();
+
+/** Delegates to whichever store is active and notifies subscribers when it changes. */
+function createSwitchableStore(initial: ProgressStore) {
+  let inner = initial;
+  let unsubInner = () => {};
+  const listeners = new Set<() => void>();
+  const notify = () => listeners.forEach((l) => l());
+  const attach = () => {
+    unsubInner();
+    unsubInner = inner.subscribe(notify);
+  };
+  attach();
+  return {
+    add: (r: AttemptRecord) => inner.add(r),
+    all: () => inner.all(),
+    subscribe(listener: () => void) {
+      listeners.add(listener);
+      return () => {
+        listeners.delete(listener);
+      };
+    },
+    use(store: ProgressStore) {
+      inner = store;
+      attach();
+      notify();
+    },
+  };
+}
+
+export const progressStore = createSwitchableStore(localStore);
 
 export function useAttempts(): AttemptRecord[] {
   return useSyncExternalStore(progressStore.subscribe, progressStore.all);

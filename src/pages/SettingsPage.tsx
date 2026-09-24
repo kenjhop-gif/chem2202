@@ -2,6 +2,7 @@ import { Check, Monitor, Moon, Sun } from 'lucide-react';
 import { THEMES } from '../theme/themes';
 import { useTheme, type ColorMode } from '../theme/ThemeProvider';
 import { SECTIONS } from '../content/curriculum';
+import { AccountSection } from './AccountSection';
 
 const MODES: { id: ColorMode; label: string; icon: typeof Sun }[] = [
   { id: 'system', label: 'Match device', icon: Monitor },
@@ -52,11 +53,7 @@ export function SettingsPage() {
 
       <section style={{ marginTop: 36 }}>
         <h2>Account</h2>
-        <div className="card pad" style={{ marginTop: 12 }}>
-          <p className="muted">
-            Accounts are coming soon. For now, your progress and settings are saved on this device only.
-          </p>
-        </div>
+        <AccountSection />
       </section>
     </div>
   );

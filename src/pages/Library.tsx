@@ -92,8 +92,7 @@ export function Library() {
       })}
 
       <footer className="footer">
-        Built for NL Chemistry 2202 · Molar masses from the NL Periodic Chart (2019‑20) · Progress is saved on this device
-        until accounts are connected.
+        Built for NL Chemistry 2202 · Molar masses from the NL Periodic Chart (2019‑20) · Your progress is saved to your account
       </footer>
     </div>
   );

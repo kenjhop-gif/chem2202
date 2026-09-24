@@ -32,7 +32,7 @@ export function TopicPage() {
   return (
     <div className={`sec-${meta.section}`}>
       <div className="container narrow topic-hero">
-        <Link to="/" className="crumb">
+        <Link to="/library" className="crumb">
           <ArrowLeft size={16} /> {section.title}
         </Link>
         <div className="band">
@@ -207,7 +207,7 @@ function ComingSoon({ topicId }: { topicId: string }) {
   const meta = TOPIC_META[topicId];
   return (
     <div className={`container narrow sec-${meta.section}`} style={{ paddingTop: 40 }}>
-      <Link to="/" className="crumb">
+      <Link to="/library" className="crumb">
         <ArrowLeft size={16} /> All topics
       </Link>
       <div className="card empty" style={{ marginTop: 20 }}>

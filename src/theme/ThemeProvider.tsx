@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { DEFAULT_THEME_ID, themeById, type Theme } from './themes';
-import { loadPrefs, savePrefs } from '../progress/prefs';
+import { loadPrefs, onPrefsReplaced, savePrefs } from '../progress/prefs';
 
 export type ColorMode = 'system' | 'light' | 'dark';
 
@@ -51,6 +51,17 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     savePrefs({ themeId, colorMode: mode });
   }, [themeId, mode]);
+
+  // Pick up the account's saved theme after signing in.
+  useEffect(
+    () =>
+      onPrefsReplaced(() => {
+        const p = loadPrefs();
+        if (p.themeId) setThemeId(p.themeId);
+        if (p.colorMode) setMode(p.colorMode);
+      }),
+    [],
+  );
 
   const value = useMemo(
     () => ({ theme, setThemeId, mode, setMode, resolvedMode }),

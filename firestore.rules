@@ -1,0 +1,88 @@
+rules_version = '2';
+
+// Who can do what:
+//  - Students and parents create their own profile (they can't make themselves admin,
+//    disabled, or change access). They can edit only their name, preferences, and link code.
+//  - A student's practice log is readable by the student, linked parents, and admins.
+//  - A parent links to a student only with that student's current link code.
+//  - Admins (role set by hand in the console) can read everything, change roles,
+//    disable accounts, set hasAccess, and remove links.
+//  - Disabled accounts can't write anything.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+    function myProfile() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+    function hasProfile() {
+      return exists(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+    function active() {
+      return signedIn() && hasProfile() && myProfile().disabled != true;
+    }
+    function isAdmin() {
+      return active() && myProfile().role == 'admin';
+    }
+    function isParentOf(studentUid) {
+      return signedIn()
+        && exists(/databases/$(database)/documents/links/$(studentUid + '_' + request.auth.uid));
+    }
+
+    match /users/{uid} {
+      allow read: if signedIn() && (request.auth.uid == uid || isAdmin() || isParentOf(uid));
+
+      allow create: if signedIn()
+        && request.auth.uid == uid
+        && request.resource.data.uid == uid
+        && request.resource.data.role in ['student', 'parent']
+        && request.resource.data.disabled == false
+        && request.resource.data.hasAccess == true;
+
+      allow update: if isAdmin()
+        || (request.auth.uid == uid && active()
+            && request.resource.data.diff(resource.data).affectedKeys()
+                 .hasOnly(['displayName', 'prefs', 'linkCode']));
+
+      allow delete: if false;
+
+      match /attempts/{attemptId} {
+        allow read: if signedIn() && (request.auth.uid == uid || isAdmin() || isParentOf(uid));
+        allow create: if request.auth.uid == uid && active();
+        allow update, delete: if false;
+      }
+    }
+
+    match /linkCodes/{code} {
+      // Anyone signed in may look up a code they were given, but never list codes.
+      allow get: if signedIn();
+      allow list: if false;
+      allow create: if active() && request.resource.data.studentUid == request.auth.uid;
+      allow delete: if signedIn() && (resource.data.studentUid == request.auth.uid || isAdmin());
+      allow update: if false;
+    }
+
+    match /links/{linkId} {
+      allow read: if signedIn()
+        && (resource.data.studentUid == request.auth.uid
+            || resource.data.parentUid == request.auth.uid
+            || isAdmin());
+
+      allow create: if active()
+        && myProfile().role in ['parent', 'admin']
+        && request.resource.data.parentUid == request.auth.uid
+        && linkId == request.resource.data.studentUid + '_' + request.auth.uid
+        && get(/databases/$(database)/documents/linkCodes/$(request.resource.data.code)).data.studentUid
+             == request.resource.data.studentUid;
+
+      // The student, the parent, or an admin can remove a link.
+      allow delete: if signedIn()
+        && (resource.data.studentUid == request.auth.uid
+            || resource.data.parentUid == request.auth.uid
+            || isAdmin());
+      allow update: if false;
+    }
+  }
+}
