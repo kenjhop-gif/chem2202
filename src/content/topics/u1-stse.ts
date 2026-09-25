@@ -131,5 +131,18 @@ export const stoichSTSETopic: Topic = {
     { id: 'applied-4', skill: 'real-world stoichiometry', generate: applied },
     mcTemplate('stse-4', 'science, technology, society', stse),
   ],
-  videos: [],
+  videos: [
+    {
+      youtubeId: "NWhZ77Qm5y4",
+      title: "What Is The Haber Process",
+      channel: "FuseSchool",
+      note: "How ammonia for fertilizer is made on a huge scale.",
+    },
+    {
+      youtubeId: "Mf1CNpWv7Q8",
+      title: "Chemistry Segment: Airbags",
+      channel: "BJU Press Homeschool",
+      note: "The chemistry inside a car airbag.",
+    },
+  ],
 };

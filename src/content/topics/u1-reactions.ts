@@ -370,5 +370,18 @@ export const reactionsTopic: Topic = {
     { id: 'combustion-2', skill: 'combustion', generate: predictCombustion },
     { id: 'balance-4', skill: 'balancing equations', generate: balanceOnly },
   ],
-  videos: [],
+  videos: [
+    {
+      youtubeId: "2qX9MOQOmAM",
+      title: "Classifying Types of Chemical Reactions",
+      channel: "Tyler DeWitt",
+      note: "Practice sorting the five reaction types. (“Synthesis” = formation; “replacement” = displacement.)",
+    },
+    {
+      youtubeId: "kTomOOHZL8U",
+      title: "Intro to Balancing Chemical Equations",
+      channel: "Science Class with Ruggles",
+      note: "Balancing step by step.",
+    },
+  ],
 };

@@ -241,5 +241,18 @@ export const atomsTopic: Topic = {
     { id: 'particles-3', skill: 'protons, neutrons, electrons', generate: particles },
     { id: 'average-2', skill: 'average atomic mass', generate: averageMass },
   ],
-  videos: [],
+  videos: [
+    {
+      youtubeId: "tW_ItPxFwvY",
+      title: "Protons, Neutrons, Electrons, Isotopes and Average Mass",
+      channel: "The Organic Chemistry Tutor",
+      note: "Counting particles, isotopes, ions, and average atomic mass.",
+    },
+    {
+      youtubeId: "WX3JlcwkdLU",
+      title: "Atomic Structure, Isotopes and Average Atomic Mass",
+      channel: "Jazz Sommers",
+      note: "A second walkthrough with more worked examples.",
+    },
+  ],
 };

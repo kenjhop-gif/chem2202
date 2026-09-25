@@ -163,5 +163,12 @@ export const stoichiometryTopic: Topic = {
     { id: 'sol-m-2', skill: 'solution to mass', generate: solutionToMass },
     { id: 'v-m-2', skill: 'gas volume to mass', generate: volumeToMass },
   ],
-  videos: [],
+  videos: [
+    {
+      youtubeId: "guuo5P9p-XU",
+      title: "Stoichiometry: Mole to mole, Grams to grams",
+      channel: "Najam Academy",
+      note: "The full stoichiometry path. (Use 22.7 L/mol at STP, as on your data table.)",
+    },
+  ],
 };

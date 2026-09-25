@@ -172,5 +172,12 @@ export const percentYieldTopic: Topic = {
     { id: 'full-3', skill: 'theoretical and percent yield', generate: full },
     { id: 'expected-2', skill: 'expected actual yield', generate: expectedActual },
   ],
-  videos: [],
+  videos: [
+    {
+      youtubeId: "OV7UMogfg5s",
+      title: "Limiting Reactant, Excess Reactant, Theoretical Yield and Percent Yield",
+      channel: "hyperbranchedppe",
+      note: "From theoretical yield to percent yield, worked through.",
+    },
+  ],
 };

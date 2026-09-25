@@ -359,5 +359,18 @@ export const concentrationTopic: Topic = {
     { id: 'mv', skill: '%m/v', generate: percentMV },
     { id: 'ppm', skill: 'ppm', generate: ppmQ },
   ],
-  videos: [],
+  videos: [
+    {
+      youtubeId: "qwkB_gLdg6s",
+      title: "Solution Dilutions using M1V1 = M2V2",
+      channel: "ItsDrDan",
+      note: "Dilution calculations. (M means mol/L; M₁V₁ = C₁V₁.)",
+    },
+    {
+      youtubeId: "T4Ez5wvur08",
+      title: "Dilution of a Solution: Using M1V1 = M2V2",
+      channel: "College Chemistry Tutorials",
+      note: "More dilution examples.",
+    },
+  ],
 };

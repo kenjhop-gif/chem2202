@@ -190,5 +190,18 @@ export const precipitatesTopic: Topic = {
     { id: 'predict-3', skill: 'predicting the precipitate', generate: predict },
     mcTemplate('tests-2', 'testing for ions', ionTests),
   ],
-  videos: [],
+  videos: [
+    {
+      youtubeId: "kAXEhd6DhLM",
+      title: "How to predict products for double replacement (precipitate) reactions",
+      channel: "Crash Chemistry Academy",
+      note: "Swapping partners and spotting the precipitate. Use your class solubility table; some US tables differ slightly.",
+    },
+    {
+      youtubeId: "shx1ZU5W1g0",
+      title: "Solubility Rules, Predicting Precipitates and Net Ionic Equations",
+      channel: "Michael Patenaude",
+      note: "Also previews the next topic (net ionic equations).",
+    },
+  ],
 };

@@ -330,5 +330,18 @@ export const measurementTopic: Topic = {
     { id: 'convert-2', skill: 'metric conversions', generate: convert },
     { id: 'count-3', skill: 'counting sig figs', generate: countQ },
   ],
-  videos: [],
+  videos: [
+    {
+      youtubeId: "PNH7_nDE6SQ",
+      title: "Significant Figures Made Easy!",
+      channel: "Tyler DeWitt",
+      note: "The sig-fig counting rules, clearly explained.",
+    },
+    {
+      youtubeId: "IIQPHC5gZT8",
+      title: "Scientific Notation and Significant Figures",
+      channel: "Tyler DeWitt",
+      note: "Writing numbers in scientific notation with the right sig figs.",
+    },
+  ],
 };

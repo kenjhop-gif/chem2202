@@ -136,5 +136,18 @@ export const labSafetyTopic: Topic = {
     mcTemplate('picto-4', 'WHMIS pictograms', pictograms),
     mcTemplate('practice-4', 'safe lab practices', practices),
   ],
-  videos: [],
+  videos: [
+    {
+      youtubeId: "SefU59z5EX4",
+      title: "WHMIS 2015 Pictograms and Symbols",
+      channel: "OnlineWHMIS.ca",
+      note: "What each Canadian WHMIS pictogram means.",
+    },
+    {
+      youtubeId: "NRKFc4DMFH0",
+      title: "WHMIS 2015 for Workers",
+      channel: "WorkSafeBC",
+      note: "Labels, safety data sheets, and staying safe.",
+    },
+  ],
 };

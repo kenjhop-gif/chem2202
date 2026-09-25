@@ -220,5 +220,18 @@ export const periodicTableTopic: Topic = {
     mcTemplate('concepts-2', 'how the table is organized', concepts),
     { id: 'metal-2', skill: 'metals, non-metals, metalloids', generate: metalOrNot },
   ],
-  videos: [],
+  videos: [
+    {
+      youtubeId: "iY_RQzna0j4",
+      title: "Periodic Table: Groups, Periods, Metals, Nonmetals and Metalloids",
+      channel: "Beals Science School",
+      note: "A tour of how the table is organized.",
+    },
+    {
+      youtubeId: "xe9HptIx7xI",
+      title: "How is the Periodic Table Organized",
+      channel: "Science, Math, and Chemistry",
+      note: "Columns, rows, and the main families.",
+    },
+  ],
 };

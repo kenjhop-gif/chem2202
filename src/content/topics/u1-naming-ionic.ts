@@ -391,5 +391,18 @@ export const namingIonicTopic: Topic = {
     { id: 'formula-binary-2', skill: 'formulas of binary ionic compounds', generate: formulaBinary },
     { id: 'name-multi-2', skill: 'naming with Roman numerals', generate: (r) => nameMultivalent(r) },
   ],
-  videos: [],
+  videos: [
+    {
+      youtubeId: "eM5mDnQX0k8",
+      title: "How To Name Ionic Compounds With Transition Metals",
+      channel: "The Organic Chemistry Tutor",
+      note: "Roman numerals and polyatomic ions.",
+    },
+    {
+      youtubeId: "stu2omPRvbs",
+      title: "How To Write Ionic Formulas With Polyatomic Ions",
+      channel: "The Organic Chemistry Tutor",
+      note: "Going from names to formulas by balancing charges.",
+    },
+  ],
 };

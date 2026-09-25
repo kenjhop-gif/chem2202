@@ -190,5 +190,18 @@ export const netIonicTopic: Topic = {
     { id: 'net-3', skill: 'net ionic equations', generate: netIonicQ },
     mcTemplate('concepts-2', 'neutralization and spectators', neutralization),
   ],
-  videos: [],
+  videos: [
+    {
+      youtubeId: "BQFykq21T0E",
+      title: "Ionic Equations, Net Ionic Equations and Spectator Ions",
+      channel: "TheChemistrySolution",
+      note: "Total ionic → cancel spectators → net ionic. (“Complete ionic” = total ionic.)",
+    },
+    {
+      youtubeId: "MeSi3dDOL2I",
+      title: "Net Ionic Equations and Spectator Ions",
+      channel: "Papapodcasts",
+      note: "More worked examples.",
+    },
+  ],
 };

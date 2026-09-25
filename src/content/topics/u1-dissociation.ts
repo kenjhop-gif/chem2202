@@ -234,5 +234,18 @@ export const dissociationTopic: Topic = {
     mcTemplate('concepts-2', 'electrolytes', concepts),
     { id: 'ion-c-3', skill: 'ion concentration', generate: ionConcentration },
   ],
-  videos: [],
+  videos: [
+    {
+      youtubeId: "107VYxvvEp4",
+      title: "Writing dissociation equations and calculating ion concentration",
+      channel: "Alberta Chemistry Teacher",
+      note: "A Canadian Chemistry 20 lesson that matches this topic closely.",
+    },
+    {
+      youtubeId: "pyjeOLBsyV4",
+      title: "How To Write The Dissociation Equations of Ionic Compounds",
+      channel: "The Organic Chemistry Tutor",
+      note: "Extra practice writing dissociation equations.",
+    },
+  ],
 };

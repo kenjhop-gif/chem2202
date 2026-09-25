@@ -219,5 +219,12 @@ export const limitingTopic: Topic = {
     { id: 'excess-2', skill: 'excess left over', generate: excessLeft },
     { id: 'masses-3', skill: 'limiting reagent from masses', generate: fromMasses },
   ],
-  videos: [],
+  videos: [
+    {
+      youtubeId: "CK2yK_JTUH4",
+      title: "Limiting & Excess Reactant, Theoretical & Percent Yield",
+      channel: "The Organic Chemistry Tutor",
+      note: "Finding the limiting reagent and the excess left over.",
+    },
+  ],
 };

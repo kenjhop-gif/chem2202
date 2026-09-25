@@ -137,5 +137,12 @@ export const moleRatiosTopic: Topic = {
     mcTemplate('concepts-2', 'what coefficients mean', concepts),
     { id: 'mol-mol-4', skill: 'mole-to-mole', generate: moleToMole },
   ],
-  videos: [],
+  videos: [
+    {
+      youtubeId: "7Cfq0ilw7ps",
+      title: "Stoichiometry Basic Introduction: Mole to Mole, Mole Ratio",
+      channel: "The Organic Chemistry Tutor",
+      note: "Mole ratios from balanced equations, then grams to grams.",
+    },
+  ],
 };

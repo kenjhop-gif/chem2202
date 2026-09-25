@@ -185,5 +185,18 @@ export const acidsBasesTopic: Topic = {
     mcTemplate('neutralize-3', 'neutralization', neutralization),
     mcTemplate('classify-4', 'acid, base, or salt?', classifyBank),
   ],
-  videos: [],
+  videos: [
+    {
+      youtubeId: "ja7p_tzTTEA",
+      title: "Intro to acids and bases",
+      channel: "Khan Academy",
+      note: "What makes something an acid or a base.",
+    },
+    {
+      youtubeId: "btjUgNnaFYQ",
+      title: "Acids and Bases: pH Scale, Indicators, and Neutralization",
+      channel: "Sciesmic",
+      note: "pH, indicators, and neutralization in one video.",
+    },
+  ],
 };

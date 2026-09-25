@@ -235,5 +235,18 @@ export const bohrIonsTopic: Topic = {
     mcTemplate('concepts-2', 'why ions form', concepts),
     { id: 'ion-3', skill: 'predicting ions', generate: ionFormation },
   ],
-  videos: [],
+  videos: [
+    {
+      youtubeId: "EFOWSk2M7dY",
+      title: "How to Draw a Bohr-Rutherford Diagram",
+      channel: "Science with Mr. Harris",
+      note: "Drawing Bohr diagrams and finding valence electrons.",
+    },
+    {
+      youtubeId: "yIkMEjLDFro",
+      title: "Bohr Diagrams for Ions",
+      channel: "WCLN (BC)",
+      note: "How the diagram changes when an atom becomes an ion.",
+    },
+  ],
 };

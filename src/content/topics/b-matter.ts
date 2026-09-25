@@ -204,5 +204,18 @@ export const matterTopic: Topic = {
     mcTemplate('property-2', 'physical or chemical property', props),
     mcTemplate('change-3', 'physical or chemical change', changes),
   ],
-  videos: [],
+  videos: [
+    {
+      youtubeId: "n5cZ5CWuUJA",
+      title: "Physical and chemical changes",
+      channel: "Khan Academy",
+      note: "How to tell a physical change from a chemical one.",
+    },
+    {
+      youtubeId: "YP7Hn_6Wu5g",
+      title: "Mixtures",
+      channel: "Khan Academy",
+      note: "Pure substances vs mixtures, with everyday examples.",
+    },
+  ],
 };

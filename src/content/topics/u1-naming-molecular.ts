@@ -420,5 +420,18 @@ export const namingMolecularTopic: Topic = {
     { id: 'name-acid-2', skill: 'naming acids', generate: nameAcid },
     { id: 'mixed-2', skill: 'mixed review', generate: nameAnything },
   ],
-  videos: [],
+  videos: [
+    {
+      youtubeId: "DejkvR4pvRw",
+      title: "Naming Covalent Molecular Compounds",
+      channel: "Tyler DeWitt",
+      note: "Prefixes for compounds of two non-metals. (Acids are covered in the Learn tab.)",
+    },
+    {
+      youtubeId: "3agUL7-ezXk",
+      title: "How To Name Covalent Molecular Compounds",
+      channel: "The Organic Chemistry Tutor",
+      note: "More practice with prefixes.",
+    },
+  ],
 };

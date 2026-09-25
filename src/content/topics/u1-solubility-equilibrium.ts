@@ -215,5 +215,18 @@ export const solubilityEquilibriumTopic: Topic = {
     { id: 'table-3', skill: 'reading the solubility table', generate: tableLookup },
     { id: 'saturated-2', skill: 'saturated or unsaturated?', generate: saturatedOrNot },
   ],
-  videos: [],
+  videos: [
+    {
+      youtubeId: "DwiNAMAuJ0k",
+      title: "Unsaturated, Saturated, and Supersaturated Solutions",
+      channel: "Tyler DeWitt",
+      note: "The three kinds of solution, clearly explained.",
+    },
+    {
+      youtubeId: "cHBlDVg9nR8",
+      title: "Solubility vs Concentration",
+      channel: "The Organic Chemistry Tutor",
+      note: "How solubility differs from concentration.",
+    },
+  ],
 };

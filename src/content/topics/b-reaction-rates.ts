@@ -105,5 +105,18 @@ export const reactionRatesTopic: Topic = {
     mcTemplate('theory-3', 'collision theory', theory),
     mcTemplate('factor-5', 'identifying the factor', scenarios),
   ],
-  videos: [],
+  videos: [
+    {
+      youtubeId: "n19G4waPE8A",
+      title: "Collision Theory and Reaction Rate",
+      channel: "Chemfuzzled",
+      note: "Temperature, concentration, surface area, and catalysts.",
+    },
+    {
+      youtubeId: "jd6U5nQcqKc",
+      title: "Factors Affecting Rate of Reaction + Collision Theory",
+      channel: "GetToKnowScience",
+      note: "A short recap of each factor.",
+    },
+  ],
 };
