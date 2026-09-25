@@ -410,15 +410,17 @@ table.nice td { padding: 10px 14px; border-top: 1px solid var(--border); }
 @media (min-width: 760px) { .sheet { border-radius: 24px; } }
 @keyframes slideup { from { transform: translateY(40px); opacity: 0; } }
 .pt-scroll { overflow-x: auto; padding-bottom: 6px; }
-.pt { display: grid; grid-template-columns: repeat(18, minmax(46px, 1fr)); gap: 3px; min-width: 860px; }
+.pt { display: grid; grid-template-columns: repeat(18, minmax(58px, 1fr)); gap: 3px; min-width: 1080px; }
 .pt-cell {
-  aspect-ratio: 1 / 1.05; border-radius: 7px; border: 1px solid var(--border); background: var(--surface-2);
+  aspect-ratio: 1 / 1.2; border-radius: 7px; border: 1px solid var(--border); background: var(--surface-2);
   padding: 3px 4px; display: flex; flex-direction: column; cursor: pointer; text-align: left; font-size: 0.6rem; line-height: 1.1;
   transition: transform 0.1s, border-color 0.15s;
 }
 .pt-cell:hover { transform: scale(1.08); border-color: var(--accent); z-index: 1; position: relative; }
-.pt-cell .sym { font-size: 1rem; font-weight: 700; margin: auto 0 0; }
+.pt-cell .sym { font-size: 1rem; font-weight: 700; }
 .pt-cell .m { color: var(--text-2); }
+.pt-cell .nm { font-size: 0.55rem; color: var(--text-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-transform: capitalize; }
+.pt-cell .sym { margin-top: auto; }
 .pt-cell.gas { background: color-mix(in srgb, var(--sec-u2) 14%, var(--surface)); }
 .pt-cell.liquid { background: color-mix(in srgb, var(--sec-u1) 16%, var(--surface)); }
 .pt-cell[aria-pressed='true'] { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
@@ -551,3 +553,5 @@ table.nice td { padding: 10px 14px; border-top: 1px solid var(--border); }
 .quick-card b { display: block; }
 .quick-card small { display: block; color: var(--text-3); font-size: 0.82rem; }
 .quick-icon { width: 42px; height: 42px; border-radius: 12px; flex: none; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent-ink); }
+.pt-cell .nm.long { font-size: 0.47rem; letter-spacing: -0.02em; }
+.pt-cell .nm.xlong { font-size: 0.42rem; }

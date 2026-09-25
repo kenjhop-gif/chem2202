@@ -22,6 +22,7 @@ export function PeriodicTable() {
               >
                 <span>{el.z}</span>
                 <span className="sym">{el.symbol}</span>
+                <span className={`nm${el.name.length > 11 ? " long xlong" : el.name.length > 9 ? " long" : ""}`}>{el.name}</span>
                 <span className="m">{el.massEstimated ? `(${el.mass})` : el.mass.toFixed(2)}</span>
               </button>
             );
