@@ -2,7 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { X } from 'lucide-react';
 import { ELEMENTS, gridPosition, type Element } from '../data/elements';
 
-const NATURAL_WIDTH = 1080;
+const NATURAL_WIDTH = 1100;
 
 /** The full periodic chart with a detail card for the selected element. */
 export function PeriodicTable() {
@@ -19,14 +19,28 @@ export function PeriodicTable() {
     const inner = innerRef.current;
     if (!wrap || !inner) return;
     const update = () => {
-      const s = zoomed ? 1 : Math.min(1, wrap.clientWidth / NATURAL_WIDTH);
+      // Use the chart's real width (cells have a minimum size) so nothing is clipped.
+      const natural = Math.max(NATURAL_WIDTH, inner.scrollWidth);
+      const s = zoomed ? 1 : Math.min(1, (wrap.clientWidth - 2) / natural);
       setScale(s);
       setHeight(inner.offsetHeight * s);
     };
+    // Re-measure shortly after: changing the height can add a page scrollbar, which narrows the space again.
+    let timer = 0;
+    const schedule = () => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(update, 30);
+    };
     update();
-    const ro = new ResizeObserver(update);
+    schedule();
+    const ro = new ResizeObserver(schedule);
     ro.observe(wrap);
-    return () => ro.disconnect();
+    window.addEventListener('resize', schedule);
+    return () => {
+      window.clearTimeout(timer);
+      ro.disconnect();
+      window.removeEventListener('resize', schedule);
+    };
   }, [zoomed]);
 
   return (

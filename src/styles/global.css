@@ -410,7 +410,7 @@ table.nice td { padding: 10px 14px; border-top: 1px solid var(--border); }
 @media (min-width: 760px) { .sheet { border-radius: 24px; } }
 @keyframes slideup { from { transform: translateY(40px); opacity: 0; } }
 .pt-scroll { overflow-x: auto; padding-bottom: 6px; }
-.pt { display: grid; grid-template-columns: repeat(18, minmax(58px, 1fr)); gap: 3px; min-width: 1080px; }
+.pt { display: grid; grid-template-columns: repeat(18, minmax(58px, 1fr)); gap: 3px; min-width: 1100px; }
 .pt-cell {
   aspect-ratio: 1 / 1.2; border-radius: 7px; border: 1px solid var(--border); background: var(--surface-2);
   padding: 3px 4px; display: flex; flex-direction: column; cursor: pointer; text-align: left; font-size: 0.6rem; line-height: 1.1;
