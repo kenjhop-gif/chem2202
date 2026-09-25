@@ -64,6 +64,8 @@ export interface NumericAnswer {
   strictSigFigs?: boolean;
   /** Expected decimal places (used for molar masses: 2 decimals like the chart). */
   decimals?: number;
+  /** Set false to accept any reasonable rounding without a decimals note. */
+  showRoundingNote?: boolean;
   /** Relative tolerance, default 0.01. */
   tolerance?: number;
   /** Suggest scientific notation when a long plain number is typed. */
@@ -81,6 +83,8 @@ export interface ChoiceAnswer {
 export interface FormulaAnswer {
   kind: 'formula';
   formula: string;
+  /** Accept the right atoms in any order (e.g. empirical formulas like CH2O). */
+  anyOrder?: boolean;
 }
 
 export type AnswerSpec = NumericAnswer | ChoiceAnswer | FormulaAnswer;

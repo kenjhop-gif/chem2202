@@ -30,6 +30,9 @@ for (const topic of Object.values(TOPIC_CONTENT)) {
               expect(r.status, `${template.id} seed ${seed}: ${shown} vs ${a.value}`).toBe('correct');
               expect(r.note, `${template.id} seed ${seed}: ${shown}`).toBeUndefined();
               // (A listed mistake that happens to equal the answer is harmless: correct is checked first.)
+            } else if (a.kind === 'formula') {
+              const r = checkAnswer(a, { kind: 'formula', text: a.formula });
+              expect(r.status, `${template.id} seed ${seed}: ${a.formula}`).toBe('correct');
             } else if (a.kind === 'choice') {
               expect(a.correct).toBeGreaterThanOrEqual(0);
               expect(a.correct).toBeLessThan(a.options.length);

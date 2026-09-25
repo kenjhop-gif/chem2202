@@ -32,7 +32,7 @@ export function checkAnswer(spec: AnswerSpec, response: Response, mistakes: Mist
       message: spec.feedback?.[response.index] ?? 'Not quite. Take another look, or try a hint.',
     };
   }
-  if (spec.kind === 'formula' && response.kind === 'formula') return checkFormula(spec.formula, response.text, mistakes);
+  if (spec.kind === 'formula' && response.kind === 'formula') return checkFormula(spec.formula, response.text, mistakes, spec.anyOrder);
   return { status: 'invalid', message: 'Enter an answer first.' };
 }
 
@@ -81,7 +81,7 @@ function checkNumeric(
       if (spec.strictSigFigs) return { status: 'incorrect', message: `Right value! ${detail} Round it again.` };
       return { status: 'correct', note: `${detail} Rounded correctly, it's **${shown}**.` };
     }
-    if (!spec.sigFigs && spec.decimals !== undefined && parsed.decimals !== spec.decimals) {
+    if (!spec.sigFigs && spec.decimals !== undefined && spec.showRoundingNote !== false && parsed.decimals !== spec.decimals) {
       return {
         status: 'correct',
         note: `Keep ${spec.decimals} decimal places, like the periodic chart: **${shown}**.`,
@@ -116,7 +116,7 @@ function checkNumeric(
   return { status: 'incorrect', message: 'Not quite. Check your work, or try a hint.' };
 }
 
-function checkFormula(target: string, text: string, mistakes: Mistake[]): CheckResult {
+function checkFormula(target: string, text: string, mistakes: Mistake[], anyOrder = false): CheckResult {
   const input = normalizeFormula(text);
   if (!input) return { status: 'invalid', message: 'Enter a formula first.' };
   const goal = normalizeFormula(target);
@@ -143,6 +143,7 @@ function checkFormula(target: string, text: string, mistakes: Mistake[]): CheckR
   }
   const goalCounts = tryParseFormula(goal);
   if (goalCounts && sameCounts(counts, goalCounts)) {
+    if (anyOrder) return { status: 'correct' };
     if (goal.includes('(') && !input.includes('(')) {
       return { status: 'incorrect', message: 'Right atoms! Now keep the polyatomic ion together in brackets, like Ca(NO_{3})_{2}.' };
     }
