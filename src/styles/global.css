@@ -555,3 +555,4 @@ table.nice td { padding: 10px 14px; border-top: 1px solid var(--border); }
 .quick-icon { width: 42px; height: 42px; border-radius: 12px; flex: none; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent-ink); }
 .pt-cell .nm.long { font-size: 0.47rem; letter-spacing: -0.02em; }
 .pt-cell .nm.xlong { font-size: 0.42rem; }
+.pt-fit { overflow: hidden; }

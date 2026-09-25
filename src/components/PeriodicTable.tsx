@@ -1,14 +1,47 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { X } from 'lucide-react';
 import { ELEMENTS, gridPosition, type Element } from '../data/elements';
+
+const NATURAL_WIDTH = 1080;
 
 /** The full periodic chart with a detail card for the selected element. */
 export function PeriodicTable() {
   const [selected, setSelected] = useState<Element | null>(null);
+  // Scale the chart down to fit the available width, so the whole table shows without scrolling.
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const innerRef = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState(1);
+  const [height, setHeight] = useState<number | undefined>();
+  const [zoomed, setZoomed] = useState(false);
+
+  useLayoutEffect(() => {
+    const wrap = wrapRef.current;
+    const inner = innerRef.current;
+    if (!wrap || !inner) return;
+    const update = () => {
+      const s = zoomed ? 1 : Math.min(1, wrap.clientWidth / NATURAL_WIDTH);
+      setScale(s);
+      setHeight(inner.offsetHeight * s);
+    };
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(wrap);
+    return () => ro.disconnect();
+  }, [zoomed]);
+
   return (
     <div className="sec-u1">
-      <div className="pt-scroll">
-        <div className="pt">
+      {(scale < 0.75 || zoomed) && (
+        <button className="btn small ghost" style={{ marginBottom: 8 }} onClick={() => setZoomed((z) => !z)}>
+          {zoomed ? 'Fit to screen' : 'Zoom in (scroll sideways)'}
+        </button>
+      )}
+      <div ref={wrapRef} className={zoomed ? 'pt-scroll' : 'pt-fit'} style={{ height: zoomed ? undefined : height }}>
+        <div
+          ref={innerRef}
+          className="pt"
+          style={zoomed ? undefined : { width: NATURAL_WIDTH, transform: `scale(${scale})`, transformOrigin: 'top left' }}
+        >
           {ELEMENTS.map((el) => {
             const { row, col } = gridPosition(el.z);
             return (
@@ -36,7 +69,6 @@ export function PeriodicTable() {
         <span><i style={{ background: 'color-mix(in srgb, var(--sec-u1) 16%, var(--surface))' }} />Liquid</span>
         <span><i style={{ background: 'color-mix(in srgb, var(--sec-u2) 14%, var(--surface))' }} />Gas</span>
         <span>(Brackets) = most stable isotope</span>
-        <span className="tiny">Scroll sideways on a phone →</span>
       </div>
 
       {selected ? (
