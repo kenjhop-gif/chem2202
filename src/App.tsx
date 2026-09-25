@@ -10,6 +10,7 @@ import { StepGuidePage } from './pages/StepGuidePage';
 import { ProgressPage } from './pages/ProgressPage';
 import { FamilyPage } from './pages/FamilyPage';
 import { AdminPage } from './pages/AdminPage';
+import { ReferencePage } from './pages/ReferencePage';
 import { ThemeProvider } from './theme/ThemeProvider';
 import { AuthProvider, useAuth } from './auth/AuthProvider';
 import { Gate } from './auth/Gate';
@@ -52,6 +53,7 @@ export default function App() {
                 <Route path="/progress" element={<ProgressPage />} />
                 <Route path="/progress/:uid" element={<ProgressPage />} />
                 <Route path="/admin" element={<AdminPage />} />
+                <Route path="/reference" element={<ReferencePage />} />
                 <Route path="/break" element={<BreakPage />} />
                 <Route path="/settings" element={<SettingsPage />} />
                 <Route path="*" element={<Home />} />

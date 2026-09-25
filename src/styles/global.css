@@ -543,3 +543,11 @@ table.nice td { padding: 10px 14px; border-top: 1px solid var(--border); }
 .atom-counter td { padding: 4px 14px 4px 0; font-variant-numeric: tabular-nums; font-weight: 600; }
 .atom-counter tr.ok td:last-child { color: var(--good); }
 .atom-counter tr.off td { color: var(--miss); }
+
+/* ---------- Quick reference ---------- */
+.quick-ref { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-top: 24px; }
+.quick-card { display: flex; align-items: center; gap: 14px; padding: 16px 18px; text-decoration: none; transition: transform 0.2s var(--ease), box-shadow 0.2s; }
+.quick-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.quick-card b { display: block; }
+.quick-card small { display: block; color: var(--text-3); font-size: 0.82rem; }
+.quick-icon { width: 42px; height: 42px; border-radius: 12px; flex: none; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent-ink); }

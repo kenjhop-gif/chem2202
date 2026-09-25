@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, CheckCircle2, Clock, Lock } from 'lucide-react';
+import { ArrowRight, Calculator, CheckCircle2, Clock, Grid3x3, Lock } from 'lucide-react';
 import { SECTIONS, TOPICS } from '../content/curriculum';
 import { isReady } from '../content/registry';
 import { summarize, timeAgo, useAttempts } from '../progress/store';
@@ -29,6 +29,23 @@ export function Library() {
         </h1>
         <p>Pick any topic, in any order. Learn it, see it worked out, then try it with hints whenever you need them.</p>
       </section>
+
+      <div className="quick-ref">
+        <Link to="/reference?show=chart" className="card quick-card">
+          <span className="quick-icon"><Grid3x3 size={20} /></span>
+          <span>
+            <b>Periodic chart</b>
+            <small>Molar masses, charges, electronegativity</small>
+          </span>
+        </Link>
+        <Link to="/reference?show=data" className="card quick-card">
+          <span className="quick-icon"><Calculator size={20} /></span>
+          <span>
+            <b>Data sheet</b>
+            <small>Constants, formulas, solubility table, ions</small>
+          </span>
+        </Link>
+      </div>
 
       {last && (
         <Link to={`/topic/${last.id}`} className={`card continue-card sec-${last.section}`}>
