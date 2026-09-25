@@ -527,3 +527,19 @@ table.nice td { padding: 10px 14px; border-top: 1px solid var(--border); }
 .chip button:hover { background: var(--surface-3); color: var(--text); }
 .admin-table td { vertical-align: middle; }
 .admin-table tr.is-disabled td { opacity: 0.55; }
+
+/* ---------- Balancing ---------- */
+.equation-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 6px; font-size: 1.15rem; font-weight: 550; }
+.eq-term { display: inline-flex; align-items: center; gap: 6px; }
+.eq-op { color: var(--text-2); margin: 0 4px; font-weight: 600; }
+.coef-input {
+  width: 44px; height: 44px; text-align: center; border-radius: 12px; border: 1.5px solid var(--border-strong);
+  background: var(--surface); color: var(--text); font: inherit; font-weight: 700;
+}
+.coef-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+.coef-input::placeholder { color: var(--text-3); font-weight: 500; }
+.atom-counter { margin-top: 14px; border-collapse: separate; border-spacing: 0; font-size: 0.9rem; min-width: 220px; }
+.atom-counter th { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-3); text-align: left; padding: 4px 14px 4px 0; }
+.atom-counter td { padding: 4px 14px 4px 0; font-variant-numeric: tabular-nums; font-weight: 600; }
+.atom-counter tr.ok td:last-child { color: var(--good); }
+.atom-counter tr.off td { color: var(--miss); }

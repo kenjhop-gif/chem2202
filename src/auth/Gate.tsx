@@ -14,6 +14,8 @@ export function Gate({ children }: { children: ReactNode }) {
     return () => clearTimeout(t);
   }, [user?.uid]);
 
+  // Local development only (never in the published build): ?preview skips sign-in to check screens.
+  if (import.meta.env.DEV && new URLSearchParams(window.location.search).has('preview')) return <>{children}</>;
   if (user === undefined) return <Splash />;
   if (user === null) return <AuthPage />;
   if (profile === undefined || (profile === null && profileGrace)) return <Splash />;

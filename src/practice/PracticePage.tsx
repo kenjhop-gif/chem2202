@@ -20,6 +20,7 @@ import { TOPIC_META } from '../content/curriculum';
 import type { AnswerSpec, Question, Step } from '../content/types';
 import { checkAnswer, formatAnswer, type CheckResult, type Response } from '../engine/check';
 import { createRng, randomSeed } from '../engine/rng';
+import { equationText } from '../engine/balance';
 import { AnswerInput } from './AnswerInput';
 import { Rich } from '../components/Rich';
 import { progressStore } from '../progress/store';
@@ -396,6 +397,7 @@ function answerText(spec: AnswerSpec): string {
   if (spec.kind === 'numeric') return `${formatAnswer(spec)}${spec.unit ? ` ${spec.unit}` : ''}`;
   if (spec.kind === 'choice') return spec.options[spec.correct];
   if (spec.kind === 'name') return spec.accepted[0];
+  if (spec.kind === 'balance') return equationText(spec.reactants, spec.products, spec.coefficients);
   return `[[${spec.formula}]]`;
 }
 

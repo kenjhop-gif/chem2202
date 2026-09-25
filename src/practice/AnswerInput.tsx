@@ -5,6 +5,7 @@ import type { Response } from '../engine/check';
 import { parseNumber, formatSig } from '../engine/numeric';
 import { Formula, Rich } from '../components/Rich';
 import { tryParseFormula } from '../engine/formula';
+import { elementsIn, tally } from '../engine/balance';
 
 interface Props {
   spec: AnswerSpec;
@@ -25,7 +26,80 @@ export function AnswerInput(props: Props) {
       return <FormulaInput {...props} />;
     case 'name':
       return <NameInput {...props} />;
+    case 'balance':
+      return <BalanceInput {...props} spec={props.spec} />;
   }
+}
+
+function BalanceInput({ spec, onSubmit }: Props & { spec: Extract<AnswerSpec, { kind: 'balance' }> }) {
+  const all = [...spec.reactants, ...spec.products];
+  const [vals, setVals] = useState<string[]>(all.map(() => ''));
+  const [showCounter, setShowCounter] = useState(true);
+  const coef = vals.map((v) => (v.trim() === '' ? 1 : Number(v)));
+  const valid = coef.every((c) => Number.isInteger(c) && c >= 1);
+  const left = valid ? tally(spec.reactants, coef.slice(0, spec.reactants.length)) : {};
+  const right = valid ? tally(spec.products, coef.slice(spec.reactants.length)) : {};
+  const els = elementsIn(all);
+  const submit = () => onSubmit({ kind: 'balance', coefficients: vals.map((v) => (v.trim() === '' ? null : Number(v))) });
+
+  const box = (i: number) => (
+    <input
+      key={i}
+      className="coef-input"
+      inputMode="numeric"
+      aria-label={`Coefficient for ${all[i]}`}
+      placeholder="1"
+      value={vals[i]}
+      onChange={(e) => setVals((vs) => vs.map((v, j) => (j === i ? e.target.value.replace(/[^0-9]/g, '') : v)))}
+      onKeyDown={(e) => e.key === 'Enter' && submit()}
+      autoFocus={i === 0}
+    />
+  );
+
+  return (
+    <div>
+      <div className="equation-row">
+        {all.map((f, i) => (
+          <span key={i} className="eq-term">
+            {i > 0 && <span className="eq-op">{i === spec.reactants.length ? '→' : '+'}</span>}
+            {box(i)}
+            <Formula formula={f} />
+          </span>
+        ))}
+      </div>
+      {showCounter && valid && (
+        <table className="atom-counter">
+          <thead>
+            <tr>
+              <th>Atom</th>
+              <th>Left</th>
+              <th>Right</th>
+            </tr>
+          </thead>
+          <tbody>
+            {els.map((el) => {
+              const ok = (left[el] ?? 0) === (right[el] ?? 0);
+              return (
+                <tr key={el} className={ok ? 'ok' : 'off'}>
+                  <td>{el}</td>
+                  <td>{left[el] ?? 0}</td>
+                  <td>
+                    {right[el] ?? 0} {ok ? '✓' : ''}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      )}
+      <div className="step-actions">
+        <CheckButton onClick={submit} />
+        <button className="btn small ghost" onClick={() => setShowCounter((s) => !s)}>
+          {showCounter ? 'Hide atom counter' : 'Show atom counter'}
+        </button>
+      </div>
+    </div>
+  );
 }
 
 function NameInput({ onSubmit, missCount }: Props) {

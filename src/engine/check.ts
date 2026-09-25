@@ -2,6 +2,7 @@
 import type { AnswerSpec, Mistake, NumericAnswer, RichText } from '../content/types';
 import { formatDecimals, formatSig, parseNumber, relativeDiff, roundSig } from './numeric';
 import { normalizeFormula, sameCounts, tryParseFormula } from './formula';
+import { elementsIn, gcdAll, isBalanced, tally } from './balance';
 
 export type CheckStatus =
   /** Right answer. May carry a gentle note (sig figs, notation). */
@@ -22,7 +23,8 @@ export type Response =
   | { kind: 'numeric'; text: string; unit?: string }
   | { kind: 'choice'; index: number }
   | { kind: 'formula'; text: string }
-  | { kind: 'name'; text: string };
+  | { kind: 'name'; text: string }
+  | { kind: 'balance'; coefficients: (number | null)[] };
 
 export function checkAnswer(spec: AnswerSpec, response: Response, mistakes: Mistake[] = []): CheckResult {
   if (spec.kind === 'numeric' && response.kind === 'numeric') return checkNumeric(spec, response, mistakes);
@@ -35,7 +37,31 @@ export function checkAnswer(spec: AnswerSpec, response: Response, mistakes: Mist
   }
   if (spec.kind === 'formula' && response.kind === 'formula') return checkFormula(spec.formula, response.text, mistakes, spec.anyOrder);
   if (spec.kind === 'name' && response.kind === 'name') return checkName(spec, response.text, mistakes);
+  if (spec.kind === 'balance' && response.kind === 'balance') return checkBalance(spec, response.coefficients);
   return { status: 'invalid', message: 'Enter an answer first.' };
+}
+
+function checkBalance(spec: Extract<AnswerSpec, { kind: 'balance' }>, raw: (number | null)[]): CheckResult {
+  // A blank box means 1, as on paper.
+  const coef = raw.map((c) => (c === null ? 1 : c));
+  if (coef.some((c) => !Number.isInteger(c) || c < 1)) {
+    return { status: 'invalid', message: 'Use whole numbers of 1 or more (leave a box blank for 1).' };
+  }
+  if (isBalanced(spec.reactants, spec.products, coef)) {
+    const g = gcdAll(coef);
+    if (g > 1) {
+      return { status: 'incorrect', message: `Balanced! But every coefficient can be divided by ${g}. Use the lowest whole numbers.` };
+    }
+    return { status: 'correct' };
+  }
+  const left = tally(spec.reactants, coef.slice(0, spec.reactants.length));
+  const right = tally(spec.products, coef.slice(spec.reactants.length));
+  const off = elementsIn([...spec.reactants, ...spec.products]).filter((el) => (left[el] ?? 0) !== (right[el] ?? 0));
+  const el = off[0];
+  return {
+    status: 'incorrect',
+    message: `Not balanced yet: ${el} is ${left[el] ?? 0} on the left and ${right[el] ?? 0} on the right.${off.length > 1 ? ` (${off.length} elements are off.)` : ''}`,
+  };
 }
 
 /** Forgives capitals, extra spaces, and a space before a Roman numeral: "Iron (III)  chloride" → "iron(iii) chloride". */

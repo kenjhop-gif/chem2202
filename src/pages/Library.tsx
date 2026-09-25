@@ -17,8 +17,8 @@ export function Library() {
     return TOPICS.find((t) => t.id === latest.topicId) ?? null;
   }, [attempts]);
 
-  // Units first; Basics is a review section, so it sits at the end.
-  const ordered = [...SECTIONS.filter((s) => s.id !== 'basics'), ...SECTIONS.filter((s) => s.id === 'basics')];
+  // Basics first, then the units in course order.
+  const ordered = SECTIONS;
   const shown = filter === 'all' ? ordered : ordered.filter((s) => s.id === filter);
 
   return (

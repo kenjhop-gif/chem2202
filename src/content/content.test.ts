@@ -36,6 +36,9 @@ for (const topic of Object.values(TOPIC_CONTENT)) {
             } else if (a.kind === 'name') {
               for (const n of a.accepted) expect(checkAnswer(a, { kind: 'name', text: n }).status).toBe('correct');
               for (const o of a.oldNames ?? []) expect(checkAnswer(a, { kind: 'name', text: o }).status).toBe('invalid');
+            } else if (a.kind === 'balance') {
+              const r = checkAnswer(a, { kind: 'balance', coefficients: a.coefficients });
+              expect(r.status, `${template.id} seed ${seed}: ${a.reactants} -> ${a.products}`).toBe('correct');
             } else if (a.kind === 'choice') {
               expect(a.correct).toBeGreaterThanOrEqual(0);
               expect(a.correct).toBeLessThan(a.options.length);

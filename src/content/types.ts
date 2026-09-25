@@ -97,7 +97,15 @@ export interface NameAnswer {
   oldNames?: string[];
 }
 
-export type AnswerSpec = NumericAnswer | ChoiceAnswer | FormulaAnswer | NameAnswer;
+export interface BalanceAnswer {
+  kind: 'balance';
+  reactants: string[];
+  products: string[];
+  /** Lowest whole-number coefficients, reactants then products. */
+  coefficients: number[];
+}
+
+export type AnswerSpec = NumericAnswer | ChoiceAnswer | FormulaAnswer | NameAnswer | BalanceAnswer;
 
 export interface Mistake {
   /** For name answers: the wrong name. */
