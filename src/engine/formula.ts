@@ -14,6 +14,8 @@ export function normalizeFormula(input: string): string {
     .trim()
     .replace(/[₀-₉]/g, (c) => SUBSCRIPT_DIGITS[c])
     .replace(/\s+/g, '')
+    // State symbols aren't part of the formula: HCl(aq) → HCl.
+    .replace(/\((s|l|g|aq)\)/gi, '')
     .replace(/[·•∙.]/g, '*')
     .replace(/[[{]/g, '(')
     .replace(/[\]}]/g, ')');
