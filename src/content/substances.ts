@@ -2,8 +2,8 @@
 import { countSigFigs, formatDecimals, formatSig } from '../engine/numeric';
 import type { Rng } from '../engine/rng';
 
-export const AVOGADRO = 6.02e23;
-export const MOLAR_VOLUME_STP = 22.4;
+export const AVOGADRO = 6.022e23;
+export const MOLAR_VOLUME_STP = 22.7;
 
 export type ParticleKind = 'atoms' | 'molecules' | 'formula units';
 
@@ -11,7 +11,7 @@ export interface Substance {
   formula: string;
   name: string;
   particle: ParticleKind;
-  /** Gas at STP (usable with 22.4 L/mol). */
+  /** Gas at STP (usable with 22.7 L/mol). */
   gas?: boolean;
 }
 
@@ -72,8 +72,8 @@ export const sf = (n: number, sig: number) => formatSig(n, sig);
 /** Molar-mass style: 2 decimals. */
 export const mm = (n: number) => formatDecimals(n, 2);
 
-/** 6.02 × 10^{23} markup. */
-export const NA_TEXT = '6.02 × 10^{23}';
+/** 6.022 × 10^{23} markup (value from the NL Chemistry 2202 data table). */
+export const NA_TEXT = '6.022 × 10^{23}';
 
 /** Given value with its written sig figs, e.g. 25.0 stays "25.0". */
 export function given(n: number, sig: number): string {

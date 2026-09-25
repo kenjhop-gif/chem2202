@@ -143,7 +143,7 @@ function checkNumeric(
   if (!parsed) {
     return {
       status: 'invalid',
-      message: 'That doesn’t look like a number. Try something like 2.35 or 6.02e23.',
+      message: 'That doesn’t look like a number. Try something like 2.35 or 6.022e23.',
     };
   }
   if (spec.unitChoices && !response.unit) {

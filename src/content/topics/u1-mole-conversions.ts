@@ -149,7 +149,7 @@ function volumeToMoles(rng: Rng): Question {
   const V = measured(rng, 1, 99, 3);
   const n = V / MOLAR_VOLUME_STP;
   const order = rng.shuffle([0, 1, 2]);
-  const ops = ['V ÷ 22.4 L/mol', 'V × 22.4 L/mol', '22.4 L/mol ÷ V'];
+  const ops = ['V ÷ 22.7 L/mol', 'V × 22.7 L/mol', '22.7 L/mol ÷ V'];
   return {
     prompt: `How many moles of ${named(s)} are in ${given(V, 3)} L of the gas at STP?`,
     steps: [
@@ -157,18 +157,18 @@ function volumeToMoles(rng: Rng): Question {
         prompt: 'Which calculation turns a gas volume at STP into moles?',
         answer: { kind: 'choice', options: order.map((i) => ops[i]), correct: order.indexOf(0) },
         hints: [
-          'At STP, 1 mol of any gas takes up 22.4 L.',
-          'How many “22.4 L bundles” fit in the volume?',
-          'n = V ÷ 22.4 L/mol',
+          'At STP, 1 mol of any gas takes up 22.7 L.',
+          'How many “22.7 L bundles” fit in the volume?',
+          'n = V ÷ 22.7 L/mol',
         ],
-        explain: 'At STP, **n = V ÷ 22.4 L/mol**. The litres cancel, leaving moles.',
+        explain: 'At STP, **n = V ÷ 22.7 L/mol**. The litres cancel, leaving moles.',
       },
       {
         prompt: 'Calculate the moles.',
         answer: { kind: 'numeric', value: n, unit: 'mol', sigFigs: 3 },
-        hints: ['n = V ÷ 22.4 L/mol', 'Divide the volume by 22.4.', `${given(V, 3)} ÷ 22.4 = ?`],
-        mistakes: [{ value: V * MOLAR_VOLUME_STP, message: 'You multiplied. Divide the volume by 22.4 L/mol.' }],
-        explain: `n = ${given(V, 3)} L ÷ 22.4 L/mol = **${sf(n, 3)} mol**`,
+        hints: ['n = V ÷ 22.7 L/mol', 'Divide the volume by 22.7.', `${given(V, 3)} ÷ 22.7 = ?`],
+        mistakes: [{ value: V * MOLAR_VOLUME_STP, message: 'You multiplied. Divide the volume by 22.7 L/mol.' }],
+        explain: `n = ${given(V, 3)} L ÷ 22.7 L/mol = **${sf(n, 3)} mol**`,
       },
     ],
   };
@@ -184,9 +184,9 @@ function molesToVolume(rng: Rng): Question {
       {
         prompt: 'Calculate the volume.',
         answer: { kind: 'numeric', value: V, unit: 'L', sigFigs: 3 },
-        hints: ['At STP, each mole of gas takes up 22.4 L.', 'V = n × 22.4 L/mol', `${given(n, 3)} × 22.4 = ?`],
-        mistakes: [{ value: n / MOLAR_VOLUME_STP, message: 'You divided. Each mole takes up 22.4 L, so multiply.' }],
-        explain: `V = ${given(n, 3)} mol × 22.4 L/mol = **${sf(V, 3)} L**`,
+        hints: ['At STP, each mole of gas takes up 22.7 L.', 'V = n × 22.7 L/mol', `${given(n, 3)} × 22.7 = ?`],
+        mistakes: [{ value: n / MOLAR_VOLUME_STP, message: 'You divided. Each mole takes up 22.7 L, so multiply.' }],
+        explain: `V = ${given(n, 3)} mol × 22.7 L/mol = **${sf(V, 3)} L**`,
       },
     ],
   };
@@ -212,9 +212,9 @@ function massToVolume(rng: Rng): Question {
       {
         prompt: 'Convert moles to volume at STP.',
         answer: { kind: 'numeric', value: V, unit: 'L', sigFigs: 3 },
-        hints: ['Each mole of gas at STP is 22.4 L.', 'V = n × 22.4 L/mol', `${sf(n, 4)} × 22.4 = ?`],
-        mistakes: [{ value: n / MOLAR_VOLUME_STP, message: 'Moles → litres: multiply by 22.4 L/mol.' }],
-        explain: `V = ${sf(n, 4)} mol × 22.4 L/mol = **${sf(V, 3)} L**`,
+        hints: ['Each mole of gas at STP is 22.7 L.', 'V = n × 22.7 L/mol', `${sf(n, 4)} × 22.7 = ?`],
+        mistakes: [{ value: n / MOLAR_VOLUME_STP, message: 'Moles → litres: multiply by 22.7 L/mol.' }],
+        explain: `V = ${sf(n, 4)} mol × 22.7 L/mol = **${sf(V, 3)} L**`,
       },
     ],
     finalMistakes: [{ value: n, message: 'That’s the number of moles. One more step: convert moles to litres.' }],
@@ -232,9 +232,9 @@ function volumeToParticles(rng: Rng): Question {
       {
         prompt: 'Convert the volume to moles.',
         answer: { kind: 'numeric', value: n, unit: 'mol' },
-        hints: ['Go through moles first.', 'n = V ÷ 22.4 L/mol', `${given(V, 3)} ÷ 22.4 = ?`],
-        mistakes: [{ value: V * MOLAR_VOLUME_STP, message: 'Litres → moles: divide by 22.4 L/mol.' }],
-        explain: `n = ${given(V, 3)} L ÷ 22.4 L/mol = ${sf(n, 4)} mol`,
+        hints: ['Go through moles first.', 'n = V ÷ 22.7 L/mol', `${given(V, 3)} ÷ 22.7 = ?`],
+        mistakes: [{ value: V * MOLAR_VOLUME_STP, message: 'Litres → moles: divide by 22.7 L/mol.' }],
+        explain: `n = ${given(V, 3)} L ÷ 22.7 L/mol = ${sf(n, 4)} mol`,
       },
       {
         prompt: `Convert moles to ${s.particle}.`,
@@ -252,28 +252,28 @@ function whichConversion(rng: Rng): Question {
   const cases = [
     {
       q: `A student has 12.0 g of ${f('NaCl')} and wants the number of moles.`,
-      options: ['Divide by the molar mass', 'Multiply by the molar mass', 'Divide by 22.4 L/mol', 'Multiply by 6.02 × 10^{23}'],
+      options: ['Divide by the molar mass', 'Multiply by the molar mass', 'Divide by 22.7 L/mol', 'Multiply by 6.022 × 10^{23}'],
       correct: 0,
       explain: 'Grams → moles: divide by the molar mass (n = m ÷ M).',
     },
     {
       q: `A student has 0.50 mol of ${f('H2O')} and wants the number of molecules.`,
-      options: ['Multiply by 6.02 × 10^{23}', 'Divide by 6.02 × 10^{23}', 'Multiply by the molar mass', 'Multiply by 22.4 L/mol'],
+      options: ['Multiply by 6.022 × 10^{23}', 'Divide by 6.022 × 10^{23}', 'Multiply by the molar mass', 'Multiply by 22.7 L/mol'],
       correct: 0,
       explain: 'Moles → particles: multiply by Avogadro’s number.',
     },
     {
-      q: `A student has 5.0 g of liquid water, ${f('H2O')}, and wants its volume. Can they use 22.4 L/mol?`,
-      options: ['No, 22.4 L/mol only works for gases at STP', 'Yes, it works for any substance', 'Yes, if it’s at room temperature', 'Only for ionic compounds'],
+      q: `A student has 5.0 g of liquid water, ${f('H2O')}, and wants its volume. Can they use 22.7 L/mol?`,
+      options: ['No, 22.7 L/mol only works for gases at STP', 'Yes, it works for any substance', 'Yes, if it’s at room temperature', 'Only for ionic compounds'],
       correct: 0,
-      explain: 'Molar volume (22.4 L/mol) applies only to **gases at STP**. It doesn’t work for liquids or solids.',
+      explain: 'Molar volume (22.7 L/mol) applies only to **gases at STP**. It doesn’t work for liquids or solids.',
     },
     {
       q: `A student has 3.0 × 10^{23} atoms of ${f('Fe')} and wants the mass.`,
       options: [
-        'Divide by 6.02 × 10^{23}, then multiply by the molar mass',
-        'Multiply by the molar mass, then divide by 6.02 × 10^{23}',
-        'Multiply by 6.02 × 10^{23}, then multiply by the molar mass',
+        'Divide by 6.022 × 10^{23}, then multiply by the molar mass',
+        'Multiply by the molar mass, then divide by 6.022 × 10^{23}',
+        'Multiply by 6.022 × 10^{23}, then multiply by the molar mass',
         'Divide by the molar mass',
       ],
       correct: 0,
@@ -318,17 +318,17 @@ export const moleConversionsTopic: Topic = {
       rows: [
         ['Mass (g)', 'n = m ÷ M', 'm = n × M'],
         ['Particles', 'n = N ÷ N_{A}', 'N = n × N_{A}'],
-        ['Gas volume at STP (L)', 'n = V ÷ 22.4 L/mol', 'V = n × 22.4 L/mol'],
+        ['Gas volume at STP (L)', 'n = V ÷ 22.7 L/mol', 'V = n × 22.7 L/mol'],
       ],
     },
     { type: 'h', text: 'Molar volume of a gas' },
     {
       type: 'p',
-      text: '**STP** means standard temperature and pressure: 0 °C and 101.3 kPa. At STP, one mole of **any gas** takes up **22.4 L**. This is called the **molar volume**.',
+      text: '**STP** means standard temperature and pressure: 0.00 °C and 100.0 kPa (as on your data table). At STP, one mole of **any gas** takes up **22.7 L**. This is called the **molar volume**.',
     },
     {
       type: 'tip',
-      text: 'Molar volume only works for **gases at STP**. Never use 22.4 L/mol for a solid, a liquid, or a solution.',
+      text: 'Molar volume only works for **gases at STP**. Never use 22.7 L/mol for a solid, a liquid, or a solution.',
     },
     { type: 'h', text: 'Two-step problems' },
     {
@@ -369,18 +369,18 @@ export const moleConversionsTopic: Topic = {
     },
     {
       title: 'Two steps: litres to molecules',
-      problem: `How many molecules are in 11.2 L of oxygen gas, ${f('O2')}, at STP?`,
+      problem: `How many molecules are in 45.4 L of oxygen gas, ${f('O2')}, at STP?`,
       steps: [
-        { label: 'To moles', work: 'n = V ÷ 22.4 L/mol = 11.2 L ÷ 22.4 L/mol = 0.500 mol' },
-        { label: 'To molecules', work: `N = n × N_{A} = 0.500 mol × ${NA_TEXT} /mol = 3.01 × 10^{23}` },
+        { label: 'To moles', work: 'n = V ÷ 22.7 L/mol = 45.4 L ÷ 22.7 L/mol = 2.00 mol' },
+        { label: 'To molecules', work: `N = n × N_{A} = 2.00 mol × ${NA_TEXT} /mol = 1.2044 × 10^{24} → 1.20 × 10^{24}` },
       ],
-      answer: `3.01 × 10^{23} molecules of ${f('O2')}`,
+      answer: `1.20 × 10^{24} molecules of ${f('O2')}`,
     },
   ],
   stepGuide: [
     'Write down what you’re given (with its unit) and what you need.',
-    'Convert what you’re given **to moles**: ÷ M (grams), ÷ N_{A} (particles), or ÷ 22.4 L/mol (gas at STP).',
-    'Convert **from moles** to what you need: × M, × N_{A}, or × 22.4 L/mol.',
+    'Convert what you’re given **to moles**: ÷ M (grams), ÷ N_{A} (particles), or ÷ 22.7 L/mol (gas at STP).',
+    'Convert **from moles** to what you need: × M, × N_{A}, or × 22.7 L/mol.',
     'Check that the units cancel. Round to the sig figs of the given data.',
   ],
   practice: [

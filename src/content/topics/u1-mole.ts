@@ -72,11 +72,11 @@ function particlesToMoles(rng: Rng): Question {
           correct: order.indexOf(0),
         },
         hints: [
-          'You are grouping particles into bundles of 6.02 × 10^{23}. Does that make the number bigger or smaller?',
+          'You are grouping particles into bundles of 6.022 × 10^{23}. Does that make the number bigger or smaller?',
           'Like turning 36 eggs into dozens: 36 ÷ 12.',
           `Divide the particles by ${NA_TEXT}.`,
         ],
-        explain: '**n = N ÷ N_{A}**: count how many bundles of 6.02 × 10^{23} you have.',
+        explain: '**n = N ÷ N_{A}**: count how many bundles of 6.022 × 10^{23} you have.',
       },
       {
         prompt: 'Calculate the number of moles.',
@@ -220,7 +220,7 @@ function mostAtoms(rng: Rng): Question {
           correct: order.indexOf(best),
         },
         hints: [
-          'All three samples have the same number of **particles** (6.02 × 10^{23}).',
+          'All three samples have the same number of **particles** (6.022 × 10^{23}).',
           'So compare how many atoms are in each particle.',
           `Count the atoms: ${set.map((x, i) => `${f(x)} has ${atomTotals[i]}`).join(', ')}.`,
         ],
@@ -280,7 +280,7 @@ export const moleTopic: Topic = {
     },
     {
       type: 'p',
-      text: 'It works just like a dozen. A dozen always means 12, whether it’s eggs or cars. A mole always means 6.02 × 10^{23}, whether it’s atoms of gold or molecules of water.',
+      text: 'It works just like a dozen. A dozen always means 12, whether it’s eggs or cars. A mole always means 6.022 × 10^{23}, whether it’s atoms of gold or molecules of water.',
     },
     { type: 'h', text: 'What counts as a “particle”?' },
     {
@@ -299,7 +299,7 @@ export const moleTopic: Topic = {
       topicId: 'b-matter',
     },
     { type: 'h', text: 'Converting between moles and particles' },
-    { type: 'equation', text: 'N = n × N_{A}', caption: 'N = number of particles, n = moles, N_{A} = 6.02 × 10^{23} /mol' },
+    { type: 'equation', text: 'N = n × N_{A}', caption: 'N = number of particles, n = moles, N_{A} = 6.022 × 10^{23} /mol' },
     { type: 'equation', text: 'n = N ÷ N_{A}', caption: 'Rearranged to find moles' },
     {
       type: 'tip',
@@ -312,7 +312,7 @@ export const moleTopic: Topic = {
     },
     {
       type: 'tip',
-      text: 'On your calculator, enter 6.02 × 10^{23} using the **EXP** or **×10^{x}** key (6.02 EXP 23). Typing “× 10 ^ 23” by hand can give wrong answers when you divide.',
+      text: 'On your calculator, enter 6.022 × 10^{23} using the **EXP** or **×10^{x}** key (6.022 EXP 23). Typing “× 10 ^ 23” by hand can give wrong answers when you divide.',
     },
   ],
   examples: [
@@ -322,7 +322,7 @@ export const moleTopic: Topic = {
       steps: [
         { label: 'Identify', work: 'Given n = 2.50 mol. Copper is an element, so we count **atoms**.' },
         { label: 'Choose the formula', work: 'Moles → particles, so N = n × N_{A}' },
-        { label: 'Calculate', work: `N = 2.50 mol × ${NA_TEXT} /mol = 1.505 × 10^{24}` },
+        { label: 'Calculate', work: `N = 2.50 mol × ${NA_TEXT} /mol = 1.5055 × 10^{24}` },
         { label: 'Round', work: '2.50 has 3 sig figs → 1.51 × 10^{24}' },
       ],
       answer: '1.51 × 10^{24} atoms of Cu',
@@ -333,7 +333,7 @@ export const moleTopic: Topic = {
       steps: [
         { label: 'Choose the formula', work: 'Particles → moles, so n = N ÷ N_{A}' },
         { label: 'Calculate', work: `n = 3.01 × 10^{22} ÷ ${NA_TEXT} /mol = 0.0500 mol` },
-        { label: 'Check', work: 'Fewer than 6.02 × 10^{23} molecules, so less than 1 mol ✓' },
+        { label: 'Check', work: 'Fewer than 6.022 × 10^{23} molecules, so less than 1 mol ✓' },
       ],
       answer: `0.0500 mol ${f('CO2')}`,
     },
@@ -341,9 +341,9 @@ export const moleTopic: Topic = {
       title: 'Atoms inside molecules',
       problem: `How many hydrogen atoms are in 0.500 mol of methane, ${f('CH4')}?`,
       steps: [
-        { label: 'Molecules', work: `N = 0.500 mol × ${NA_TEXT} /mol = 3.01 × 10^{23} molecules` },
+        { label: 'Molecules', work: `N = 0.500 mol × ${NA_TEXT} /mol = 3.011 × 10^{23} molecules` },
         { label: 'Atoms per molecule', work: `Each ${f('CH4')} has 4 H atoms` },
-        { label: 'Total', work: '3.01 × 10^{23} × 4 = 1.204 × 10^{24} → 1.20 × 10^{24}' },
+        { label: 'Total', work: '3.011 × 10^{23} × 4 = 1.2044 × 10^{24} → 1.20 × 10^{24}' },
       ],
       answer: '1.20 × 10^{24} H atoms',
     },
