@@ -198,6 +198,56 @@ function waterToAdd(rng: Rng): Question {
   };
 }
 
+
+function percentMV(rng: Rng): Question {
+  const m = measured(rng, 1, 40, 3);
+  const v = measured(rng, 100, 900, 3);
+  const pct = (m / v) * 100;
+  return {
+    prompt: `${given(m, 3)} g of sugar is dissolved to make ${given(v, 3)} mL of solution. What is the concentration in %m/v?`,
+    steps: [
+      {
+        prompt: 'Calculate the %m/v.',
+        answer: { kind: 'numeric', value: pct, unit: '% m/v', sigFigs: 3 },
+        hints: ['%m/v = (grams of solute ÷ mL of solution) × 100%', 'Use grams and millilitres directly.', `${given(m, 3)} ÷ ${given(v, 3)} × 100 = ?`],
+        mistakes: [{ value: m / v, message: 'Multiply by 100 to make it a percent.' }, { value: (v / m) * 100, message: 'Solute on top: mass ÷ volume.' }],
+        explain: `%m/v = ${given(m, 3)} g ÷ ${given(v, 3)} mL × 100% = **${sf(pct, 3)}%**`,
+      },
+    ],
+  };
+}
+
+function ppmQ(rng: Rng): Question {
+  const ions = [
+    { name: 'lead', unit: 'mg' },
+    { name: 'mercury', unit: 'mg' },
+    { name: 'fluoride', unit: 'mg' },
+    { name: 'nitrate', unit: 'mg' },
+  ];
+  const ion = rng.pick(ions);
+  const mg = measured(rng, 0.1, 9.9, 2);
+  const kg = measured(rng, 1, 50, 3);
+  const ppm = (mg / 1000 / (kg * 1000)) * 1e6;
+  return {
+    prompt: `A ${given(kg, 3)} kg water sample contains ${given(mg, 2)} mg of ${ion.name}. What is the concentration in ppm?`,
+    steps: [
+      {
+        prompt: 'Convert both masses to grams. What is the mass of the solution in g?',
+        answer: { kind: 'numeric', value: kg * 1000, unit: 'g', sigFigs: 3 },
+        hints: ['1 kg = 1000 g.', 'The units must match before you divide.', `${given(kg, 3)} × 1000`],
+        explain: `${given(kg, 3)} kg = ${sf(kg * 1000, 3)} g (and ${given(mg, 2)} mg = ${sf(mg / 1000, 2)} g)`,
+      },
+      {
+        prompt: 'Calculate ppm.',
+        answer: { kind: 'numeric', value: ppm, unit: 'ppm', sigFigs: 2 },
+        hints: ['ppm = (mass of solute ÷ mass of solution) × 10^{6}', `(${sf(mg / 1000, 2)} g ÷ ${sf(kg * 1000, 3)} g) × 10^{6}`, 'Tip: for water, 1 mg per kg = 1 ppm.'],
+        mistakes: [{ value: ppm * 1000, message: 'Check your units: the mass of solute must be in grams too.' }],
+        explain: `ppm = ${sf(mg / 1000, 2)} ÷ ${sf(kg * 1000, 3)} × 10^{6} = **${sf(ppm, 2)} ppm**`,
+      },
+    ],
+  };
+}
+
 const concepts: MCItem[] = [
   {
     q: 'When a solution is diluted, what stays the same?',
@@ -252,6 +302,18 @@ export const concentrationTopic: Topic = {
       type: 'p',
       text: 'To prepare a solution in the lab: calculate the mass (or stock volume) needed, dissolve it in some water in a **volumetric flask**, then add water exactly to the line.',
     },
+    { type: 'h', text: 'Other concentration units' },
+    {
+      type: 'table',
+      head: ['Unit', 'Formula', 'Used for'],
+      rows: [
+        ['%m/v', '(m_{solute} in g ÷ V_{solution} in mL) × 100%', 'medical and consumer products (e.g. 0.9% saline)'],
+        ['%v/v', '(V_{solute} ÷ V_{solution}) × 100%', 'liquids in liquids (e.g. 5% alcohol)'],
+        ['ppm', '(m_{solute} ÷ m_{solution}) × 10^{6}', 'tiny amounts, e.g. pollutants in water'],
+        ['ppb', '(m_{solute} ÷ m_{solution}) × 10^{9}', 'even tinier amounts'],
+      ],
+    },
+    { type: 'tip', text: 'For ppm and ppb, both masses must be in the same unit. For water, 1 mg per kg (or per L) is 1 ppm.' },
     { type: 'background', title: 'Grams to moles', text: 'Concentration problems often start with a mass. Review Topic 5 if needed.', topicId: 'u1-mole-conversions' },
   ],
   examples: [
@@ -294,6 +356,8 @@ export const concentrationTopic: Topic = {
     mcTemplate('concepts-2', 'solutions vocabulary', concepts),
     { id: 'dil-c2-2', skill: 'dilution: new concentration', generate: dilutionC2 },
     { id: 'prep-2', skill: 'preparing a solution', generate: preparation },
+    { id: 'mv', skill: '%m/v', generate: percentMV },
+    { id: 'ppm', skill: 'ppm', generate: ppmQ },
   ],
   videos: [],
 };

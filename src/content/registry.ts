@@ -16,6 +16,11 @@ import { dissociationTopic } from './topics/u1-dissociation';
 import { solubilityEquilibriumTopic } from './topics/u1-solubility-equilibrium';
 import { precipitatesTopic } from './topics/u1-precipitates';
 import { netIonicTopic } from './topics/u1-net-ionic';
+import { moleRatiosTopic } from './topics/u1-mole-ratios';
+import { stoichiometryTopic } from './topics/u1-stoichiometry';
+import { limitingTopic } from './topics/u1-limiting';
+import { percentYieldTopic } from './topics/u1-percent-yield';
+import { stoichSTSETopic } from './topics/u1-stse';
 import { moleTopic } from './topics/u1-mole';
 import { molarMassTopic } from './topics/u1-molar-mass';
 import { moleConversionsTopic } from './topics/u1-mole-conversions';
@@ -44,6 +49,11 @@ const TOPICS: Topic[] = [
   solubilityEquilibriumTopic,
   precipitatesTopic,
   netIonicTopic,
+  moleRatiosTopic,
+  stoichiometryTopic,
+  limitingTopic,
+  percentYieldTopic,
+  stoichSTSETopic,
 ];
 
 export const TOPIC_CONTENT: Record<string, Topic> = Object.fromEntries(TOPICS.map((t) => [t.meta.id, t]));
