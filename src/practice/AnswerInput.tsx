@@ -23,7 +23,34 @@ export function AnswerInput(props: Props) {
       return <ChoiceInput {...props} spec={props.spec} />;
     case 'formula':
       return <FormulaInput {...props} />;
+    case 'name':
+      return <NameInput {...props} />;
   }
+}
+
+function NameInput({ onSubmit, missCount }: Props) {
+  const [text, setText] = useState('');
+  const submit = () => onSubmit({ kind: 'name', text });
+  return (
+    <div className="answer-row">
+      <input
+        key={missCount}
+        className={`input${missCount ? ' shake' : ''}`}
+        autoCapitalize="off"
+        autoComplete="off"
+        autoCorrect="off"
+        spellCheck={false}
+        placeholder="e.g. iron(III) chloride"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        onKeyDown={(e) => e.key === 'Enter' && submit()}
+        aria-label="Name"
+        autoFocus
+        style={{ fontWeight: 500 }}
+      />
+      <CheckButton onClick={submit} />
+    </div>
+  );
 }
 
 function CheckButton({ onClick, label = 'Check' }: { onClick(): void; label?: string }) {

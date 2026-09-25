@@ -395,6 +395,7 @@ function StepCard({
 function answerText(spec: AnswerSpec): string {
   if (spec.kind === 'numeric') return `${formatAnswer(spec)}${spec.unit ? ` ${spec.unit}` : ''}`;
   if (spec.kind === 'choice') return spec.options[spec.correct];
+  if (spec.kind === 'name') return spec.accepted[0];
   return `[[${spec.formula}]]`;
 }
 

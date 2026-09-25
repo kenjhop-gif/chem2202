@@ -87,9 +87,19 @@ export interface FormulaAnswer {
   anyOrder?: boolean;
 }
 
-export type AnswerSpec = NumericAnswer | ChoiceAnswer | FormulaAnswer;
+export interface NameAnswer {
+  kind: 'name';
+  /** Accepted IUPAC names (the first is shown as the answer). */
+  accepted: string[];
+  /** Real but non-IUPAC names (e.g. "ferric chloride"): a gentle redirect, not a wrong try. */
+  oldNames?: string[];
+}
+
+export type AnswerSpec = NumericAnswer | ChoiceAnswer | FormulaAnswer | NameAnswer;
 
 export interface Mistake {
+  /** For name answers: the wrong name. */
+  name?: string;
   /** For numeric answers: the wrong value this mistake produces. */
   value?: number;
   /** For formula answers: the wrong formula. */

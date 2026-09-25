@@ -103,7 +103,7 @@ function otherPercent(rng: Rng): Question {
   const pa = percentOf(c.formula, a);
   const pb = 100 - pa;
   return {
-    prompt: `${c.name}, ${f(c.formula)}, is ${pct(pa)}% ${a} by mass. What percent is ${b}?`,
+    prompt: `${c.name[0].toUpperCase() + c.name.slice(1)}, ${f(c.formula)}, is ${pct(pa)}% ${a} by mass. What percent is ${b}?`,
     steps: [
       {
         prompt: `Find the percent of ${b}.`,

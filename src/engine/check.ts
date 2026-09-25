@@ -21,7 +21,8 @@ export interface CheckResult {
 export type Response =
   | { kind: 'numeric'; text: string; unit?: string }
   | { kind: 'choice'; index: number }
-  | { kind: 'formula'; text: string };
+  | { kind: 'formula'; text: string }
+  | { kind: 'name'; text: string };
 
 export function checkAnswer(spec: AnswerSpec, response: Response, mistakes: Mistake[] = []): CheckResult {
   if (spec.kind === 'numeric' && response.kind === 'numeric') return checkNumeric(spec, response, mistakes);
@@ -33,7 +34,68 @@ export function checkAnswer(spec: AnswerSpec, response: Response, mistakes: Mist
     };
   }
   if (spec.kind === 'formula' && response.kind === 'formula') return checkFormula(spec.formula, response.text, mistakes, spec.anyOrder);
+  if (spec.kind === 'name' && response.kind === 'name') return checkName(spec, response.text, mistakes);
   return { status: 'invalid', message: 'Enter an answer first.' };
+}
+
+/** Forgives capitals, extra spaces, and a space before a Roman numeral: "Iron (III)  chloride" → "iron(iii) chloride". */
+export function normalizeName(s: string): string {
+  return s
+    .toLowerCase()
+    .replace(/[‐-―]/g, '-')
+    .replace(/\s+/g, ' ')
+    .replace(/\s*\(\s*/g, '(')
+    .replace(/\s*\)\s*/g, ') ')
+    .replace(/\s*-\s*/g, '-')
+    .replace(/\s*,\s*/g, ',')
+    .trim();
+}
+
+const ROMAN = /\(([ivx]+)\)/;
+
+function checkName(spec: Extract<AnswerSpec, { kind: 'name' }>, text: string, mistakes: Mistake[]): CheckResult {
+  const input = normalizeName(text);
+  if (!input) return { status: 'invalid', message: 'Enter a name first.' };
+  const accepted = spec.accepted.map(normalizeName);
+  if (accepted.includes(input)) return { status: 'correct' };
+
+  if (spec.oldNames?.map(normalizeName).includes(input)) {
+    return {
+      status: 'invalid',
+      message: 'That’s a real name, but it’s an older one. This course uses the IUPAC name. Try again!',
+    };
+  }
+  for (const m of mistakes) {
+    if (m.name && normalizeName(m.name) === input) return { status: 'incorrect', message: m.message };
+  }
+
+  const goal = accepted[0];
+  const goalRoman = goal.match(ROMAN);
+  const inputRoman = input.match(ROMAN);
+  if (goalRoman && !inputRoman && input === goal.replace(ROMAN, '')) {
+    return { status: 'incorrect', message: 'This metal can form more than one ion. Add a Roman numeral to show its charge.' };
+  }
+  if (goalRoman && inputRoman && input.replace(ROMAN, '()') === goal.replace(ROMAN, '()')) {
+    return { status: 'incorrect', message: 'Check the Roman numeral. Work out the metal’s charge from the negative ion(s).' };
+  }
+  if (!goalRoman && inputRoman && input.replace(ROMAN, '') === goal) {
+    return { status: 'incorrect', message: 'This metal has only one possible charge, so it doesn’t need a Roman numeral.' };
+  }
+  if (goal.endsWith('ide') && input === goal.replace(/ide$/, 'ine')) {
+    return { status: 'incorrect', message: 'Close! A negative ion made from one element ends in **-ide** (chloride, not chlorine).' };
+  }
+  if (/^(mono|di|tri|tetra)/.test(input.split(' ').slice(-1)[0]) && !/(mono|di|tri|tetra|penta|hexa)/.test(goal)) {
+    return { status: 'incorrect', message: 'Ionic compounds don’t use prefixes like mono- or di-. The charges set the ratio.' };
+  }
+  const words = goal.split(' ');
+  const got = input.split(' ');
+  if (words.length === got.length && words[0] === got[0]) {
+    return { status: 'incorrect', message: 'The first part is right. Check the name of the second part.' };
+  }
+  if (words.length === got.length && words.slice(1).join(' ') === got.slice(1).join(' ')) {
+    return { status: 'incorrect', message: 'The second part is right. Check the first part.' };
+  }
+  return { status: 'incorrect', message: 'Not quite. Check your spelling and each part of the name, or try a hint.' };
 }
 
 export function formatAnswer(spec: NumericAnswer): string {

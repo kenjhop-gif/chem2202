@@ -115,3 +115,18 @@ describe('checkAnswer formula', () => {
   it('flags missing brackets', () =>
     expect(checkAnswer(spec, { kind: 'formula', text: 'CaN2O6' }).message).toMatch(/brackets/));
 });
+
+describe('checkAnswer name', () => {
+  const spec = { kind: 'name' as const, accepted: ['iron(III) chloride'], oldNames: ['ferric chloride'] };
+  const check = (text: string) => checkAnswer(spec, { kind: 'name', text });
+  it('forgives case and spacing', () => {
+    expect(check('Iron (III)  Chloride').status).toBe('correct');
+    expect(check('iron(iii)chloride').status).toBe('correct');
+  });
+  it('redirects old names without counting a try', () => expect(check('ferric chloride').status).toBe('invalid'));
+  it('flags a missing Roman numeral', () => expect(check('iron chloride').message).toMatch(/Roman numeral/));
+  it('flags a wrong Roman numeral', () => expect(check('iron(II) chloride').message).toMatch(/Check the Roman numeral/));
+  it('flags -ine endings', () => expect(check('iron(III) chlorine').message).toMatch(/-ide/));
+  it('flags prefixes', () =>
+    expect(checkAnswer({ kind: 'name', accepted: ['calcium chloride'] }, { kind: 'name', text: 'calcium dichloride' }).message).toMatch(/prefixes/));
+});
