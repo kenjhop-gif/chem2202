@@ -11,6 +11,8 @@ import { labSafetyTopic } from './topics/b-lab-safety';
 import { namingIonicTopic } from './topics/u1-naming-ionic';
 import { namingMolecularTopic } from './topics/u1-naming-molecular';
 import { reactionsTopic } from './topics/u1-reactions';
+import { concentrationTopic } from './topics/u1-concentration';
+import { dissociationTopic } from './topics/u1-dissociation';
 import { moleTopic } from './topics/u1-mole';
 import { molarMassTopic } from './topics/u1-molar-mass';
 import { moleConversionsTopic } from './topics/u1-mole-conversions';
@@ -34,6 +36,8 @@ const TOPICS: Topic[] = [
   percentCompositionTopic,
   empiricalMolecularTopic,
   reactionsTopic,
+  concentrationTopic,
+  dissociationTopic,
 ];
 
 export const TOPIC_CONTENT: Record<string, Topic> = Object.fromEntries(TOPICS.map((t) => [t.meta.id, t]));
