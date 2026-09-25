@@ -70,6 +70,8 @@ export interface NumericAnswer {
   tolerance?: number;
   /** Suggest scientific notation when a long plain number is typed. */
   expectScientific?: boolean;
+  /** Require the answer written in this notation (for questions that practise converting). */
+  notation?: 'scientific' | 'standard';
 }
 
 export interface ChoiceAnswer {

@@ -1,5 +1,13 @@
 // Topics with written content. Anything in the curriculum map but not here shows as "coming soon".
 import type { Topic } from './types';
+import { matterTopic } from './topics/b-matter';
+import { atomsTopic } from './topics/b-atoms';
+import { periodicTableTopic } from './topics/b-periodic-table';
+import { bohrIonsTopic } from './topics/b-bohr-ions';
+import { measurementTopic } from './topics/b-measurement';
+import { acidsBasesTopic } from './topics/b-acids-bases';
+import { reactionRatesTopic } from './topics/b-reaction-rates';
+import { labSafetyTopic } from './topics/b-lab-safety';
 import { namingIonicTopic } from './topics/u1-naming-ionic';
 import { namingMolecularTopic } from './topics/u1-naming-molecular';
 import { moleTopic } from './topics/u1-mole';
@@ -9,6 +17,14 @@ import { percentCompositionTopic } from './topics/u1-percent-composition';
 import { empiricalMolecularTopic } from './topics/u1-empirical-molecular';
 
 const TOPICS: Topic[] = [
+  matterTopic,
+  atomsTopic,
+  periodicTableTopic,
+  bohrIonsTopic,
+  measurementTopic,
+  acidsBasesTopic,
+  reactionRatesTopic,
+  labSafetyTopic,
   namingIonicTopic,
   namingMolecularTopic,
   moleTopic,

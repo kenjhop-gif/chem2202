@@ -99,7 +99,10 @@ function checkName(spec: Extract<AnswerSpec, { kind: 'name' }>, text: string, mi
 }
 
 export function formatAnswer(spec: NumericAnswer): string {
-  if (spec.sigFigs) return formatSig(spec.value, spec.sigFigs);
+  if (spec.sigFigs) {
+    const threshold = spec.notation === 'scientific' ? 0 : spec.notation === 'standard' ? 99 : 5;
+    return formatSig(spec.value, spec.sigFigs, threshold);
+  }
   if (spec.decimals !== undefined) return formatDecimals(spec.value, spec.decimals);
   return String(spec.value);
 }
@@ -134,6 +137,13 @@ function checkNumeric(
 
   if (valueOk && !unitOk) {
     return { status: 'incorrect', message: `Right number, but check the unit. What does this quantity measure?` };
+  }
+
+  if (valueOk && spec.notation === 'scientific' && !parsed.scientific) {
+    return { status: 'incorrect', message: 'Right value! Now write it in scientific notation (like 4.56 × 10^{4}).' };
+  }
+  if (valueOk && spec.notation === 'standard' && parsed.scientific) {
+    return { status: 'incorrect', message: 'Right value! Now write it as a regular number, without × 10.' };
   }
 
   if (valueOk) {
